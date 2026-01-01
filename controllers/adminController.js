@@ -3,14 +3,34 @@ const User = require('../models/user');
 const Order = require('../models/order');
 
 const AdminController = {
-  allUsers: function(req, res) {
+  allUsers: function (req, res) {
     User.getAllUsers((err, users) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch users' });
       res.render('admin/dashboard', { users });
     });
   },
 
-  getUserOrders: function(req, res) {
+  login: function (req, res) {
+    const { username, password } = req.body;
+    const db = require('../config/db');
+    const query = 'SELECT * FROM admin WHERE username = ? AND password = ?';
+    db.query(query, [username, password], (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.render('admin/login', { error: 'An error occurred' });
+      }
+      if (results.length > 0) {
+        req.session.loggedin = true;
+        req.session.username = results[0].username;
+        req.session.adminId = results[0].id;
+        return res.redirect('/admin/dashboard');
+      } else {
+        return res.render('admin/login', { error: 'Invalid credentials' });
+      }
+    });
+  },
+
+  getUserOrders: function (req, res) {
     const userId = req.params.userId;
     User.getUserById(userId, (err, user) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch user' });
@@ -23,7 +43,7 @@ const AdminController = {
     });
   },
 
-  addBook: function(req, res) {
+  addBook: function (req, res) {
     const { title, category, author, description, price, quantity } = req.body;
     const image = req.file ? req.file.filename : null;
 
@@ -36,7 +56,7 @@ const AdminController = {
     });
   },
 
-  getBookDetails: function(req, res) {
+  getBookDetails: function (req, res) {
     const bookId = req.params.bookId;
     Book.getBookById(bookId, (err, book) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch book' });
@@ -45,7 +65,7 @@ const AdminController = {
     });
   },
 
-  updateBook: function(req, res) {
+  updateBook: function (req, res) {
     const bookId = req.params.bookId;
     const { title, category, author, description, price, quantity } = req.body;
     const image = req.file ? req.file.filename : null;
@@ -57,7 +77,7 @@ const AdminController = {
     });
   },
 
-  deleteBook: function(req, res) {
+  deleteBook: function (req, res) {
     const bookId = req.params.bookId;
     Book.deleteBook(bookId, (err) => {
       if (err) return res.status(500).json({ error: 'Failed to delete book' });
@@ -65,14 +85,14 @@ const AdminController = {
     });
   },
 
-  allOrders: function(req, res) {
+  allOrders: function (req, res) {
     Order.getAllOrders((err, orders) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch orders' });
       res.render('admin/allOrders', { orders });
     });
   },
 
-  updateOrderStatus: function(req, res) {
+  updateOrderStatus: function (req, res) {
     const orderId = req.params.orderId;
     const { status } = req.body;
     Order.updateOrderStatus(orderId, status, (err) => {

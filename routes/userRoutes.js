@@ -8,6 +8,7 @@ router.post('/register', userController.register);
 
 router.get('/userLogin', (req, res) => res.render('user/login'));
 router.post('/userLogin', userController.login);
+router.get('/logout', userController.logout);
 
 router.get('/index', authenticateToken, userController.getBooksByPopular);
 router.get('/books', authenticateToken, userController.getBookDetails);

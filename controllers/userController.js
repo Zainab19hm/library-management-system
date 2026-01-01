@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/config');
 
 const userController = {
-  register: function(req, res) {
+  register: function (req, res) {
     const { name, email, password, city, phone, gender } = req.body;
     const salt = genSaltSync(10);
     const hashedPassword = hashSync(password, salt);
@@ -17,7 +17,7 @@ const userController = {
     });
   },
 
-  login: function(req, res) {
+  login: function (req, res) {
     const { email, password } = req.body;
     User.findByEmail(email, (err, user) => {
       if (err) return res.status(500).json({ error: 'Internal server error' });
@@ -33,14 +33,20 @@ const userController = {
     });
   },
 
-  getBooksByPopular: function(req, res) {
+  logout: function (req, res) {
+    res.clearCookie('token');
+    req.session.destroy();
+    res.redirect('/user/userLogin');
+  },
+
+  getBooksByPopular: function (req, res) {
     Book.getAllBooks((err, books) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch books' });
       res.render('user/index', { books, user: req.user });
     });
   },
 
-  getBookDetails: function(req, res) {
+  getBookDetails: function (req, res) {
     Book.getAllBooks((err, books) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch books' });
       const cart = req.session.cart || [];
@@ -48,7 +54,7 @@ const userController = {
     });
   },
 
-  getBookDetailsById: function(req, res) {
+  getBookDetailsById: function (req, res) {
     const bookId = req.params.bookId;
     Book.getBookById(bookId, (err, book) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch book' });
@@ -57,7 +63,7 @@ const userController = {
     });
   },
 
-  addToCart: function(req, res) {
+  addToCart: function (req, res) {
     const bookId = req.body.bookId;
     Book.getBookById(bookId, (err, book) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch book' });
@@ -75,12 +81,12 @@ const userController = {
     });
   },
 
-  getCart: function(req, res) {
+  getCart: function (req, res) {
     const cart = req.session.cart || [];
     res.render('user/cart', { cart, user: req.user });
   },
 
-  updateCartQuantity: function(req, res) {
+  updateCartQuantity: function (req, res) {
     const { bookId } = req.params;
     const { action } = req.body;
     const cart = req.session.cart || [];
@@ -94,7 +100,7 @@ const userController = {
     res.json({ success: false });
   },
 
-  removeFromCart: function(req, res) {
+  removeFromCart: function (req, res) {
     const { bookId } = req.params;
     const cart = req.session.cart || [];
     const index = cart.findIndex(i => i.book_id == bookId);
@@ -105,12 +111,12 @@ const userController = {
     res.json({ success: false });
   },
 
-  checkout: function(req, res) {
+  checkout: function (req, res) {
     const cart = req.session.cart || [];
     res.render('user/checkout', { cart, user: req.user });
   },
 
-  payForm: function(req, res) {
+  payForm: function (req, res) {
     const cart = req.session.cart || [];
     if (cart.length === 0) return res.status(400).json({ error: 'Cart is empty' });
 
@@ -122,7 +128,7 @@ const userController = {
     });
   },
 
-  getFilteredBooks: function(req, res) {
+  getFilteredBooks: function (req, res) {
     const { category, author } = req.query;
     Book.getAllBooks((err, books) => {
       if (err) return res.status(500).json({ error: 'Failed to fetch books' });

@@ -14,6 +14,7 @@ const upload = multer({ storage });
 
 // Admin login
 router.get('/adminLogin', (req, res) => res.render('admin/login'));
+router.post('/adminLogin', AdminController.login);
 // تسجيل الدخول للأدمن هنا بنفس الكود السابق أو استخدام Passport
 
 router.get('/dashboard', requireLogin, AdminController.allUsers);
