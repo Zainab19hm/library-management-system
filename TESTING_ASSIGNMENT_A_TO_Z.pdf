@@ -1,0 +1,389 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R] /Count 6 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3252 >>
+stream
+BT /F1 11 Tf 1 0 0 1 50 792 Tm (SOFTWARE TESTING PRACTICAL ? A TO Z EXECUTION GUIDE \(LIBRARY MANAGEMENT SYSTEM\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 778 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 764 Tm (This guide translates your assignment sheet into **concrete tasks** for this repository.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 750 Tm (It tells you:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 736 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 722 Tm (? what to do,) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 708 Tm (? the exact commands/files,) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 694 Tm (? expected result,) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 680 Tm (? and how to verify you did it correctly.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 666 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 652 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 638 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 624 Tm (0\) PROJECT BASELINE \(DO THIS FIRST\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 610 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 596 Tm (TASK) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 582 Tm (Prepare and run the project locally.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 568 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 554 Tm (STEPS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 540 Tm (1. Install dependencies:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 526 Tm (   ```bash) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 512 Tm (   npm install) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 498 Tm (   ```) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 484 Tm (2. Create the MySQL database and tables from `database_setup.sql`.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 470 Tm (3. Ensure DB config in `config/db.js` matches your local MySQL credentials.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 456 Tm (4. Start app:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 442 Tm (   ```bash) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 428 Tm (   npm run start) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 414 Tm (   ```) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 400 Tm (5. Open `http://localhost:5000`.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 386 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 372 Tm (EXPECTED RESULT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 358 Tm (? Server starts without crash.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 344 Tm (? Home page loads.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 330 Tm (? User and admin login pages are reachable.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 316 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 302 Tm (HOW TO VERIFY CORRECTNESS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 288 Tm (? No startup errors in terminal.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 274 Tm (? Manual check these routes:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 260 Tm (  - `/`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 246 Tm (  - `/user/userLogin`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 232 Tm (  - `/admin/adminLogin`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 218 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 204 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 190 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 176 Tm (1\) CI/CD PIPELINE WITH SECURITY CHECK \(GITHUB ACTIONS + GITLEAKS\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 162 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 148 Tm (TASK) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 134 Tm (Create a CI workflow that runs tests and scans secrets.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 120 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 106 Tm (STEPS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 92 Tm (1. Add workflow file:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 78 Tm (   - `.github/workflows/ci.yml`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 64 Tm (2. Include jobs:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 50 Tm (   - `npm ci`) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3336 >>
+stream
+BT /F1 11 Tf 1 0 0 1 50 792 Tm (   - unit/integration test execution) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 778 Tm (   - `gitleaks` scan) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 764 Tm (3. Add Gitleaks config if needed:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 750 Tm (   - `.gitleaks.toml` \(optional\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 736 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 722 Tm (MINIMAL CI SKELETON) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 708 Tm (name: CI) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 694 Tm (on: [push, pull_request]) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 680 Tm (jobs:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 666 Tm (  test:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 652 Tm (    runs-on: ubuntu-latest) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 638 Tm (    steps:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 624 Tm (      - uses: actions/checkout@v4) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 610 Tm (      - uses: actions/setup-node@v4) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 596 Tm (        with:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 582 Tm (          node-version: 20) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 568 Tm (      - run: npm ci) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 554 Tm (      - run: npm run test:unit) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 540 Tm (      - run: npm run test:integration) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 526 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 512 Tm (  security:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 498 Tm (    runs-on: ubuntu-latest) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 484 Tm (    steps:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 470 Tm (      - uses: actions/checkout@v4) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 456 Tm (      - uses: gitleaks/gitleaks-action@v2) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 442 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 428 Tm (EXPECTED RESULT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 414 Tm (? GitHub Actions starts automatically on push/PR.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 400 Tm (? Test job passes.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 386 Tm (? Gitleaks job passes with no leaks.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 372 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 358 Tm (HOW TO VERIFY CORRECTNESS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 344 Tm (? Repo ?Actions? tab shows green check for CI.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 330 Tm (? If a secret is committed intentionally in a test branch, Gitleaks fails \(then remove) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 316 Tm (immediately\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 302 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 288 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 274 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 260 Tm (2\) UNIT TESTING \(CORE BUSINESS LOGIC\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 246 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 232 Tm (TASK) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 218 Tm (Write unit tests for logic-heavy functions.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 204 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 190 Tm (BEST TARGETS IN THIS REPO) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 176 Tm (? `controllers/userController.js`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 162 Tm (  - `updateCartQuantity`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 148 Tm (  - `removeFromCart`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 134 Tm (  - `getFilteredBooks`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 120 Tm (? `controllers/adminController.js`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 106 Tm (  - `updateOrderStatus` \(mock model\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 92 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 78 Tm (STEPS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 64 Tm (1. Install framework \(recommended Jest + Supertest\):) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 50 Tm (   ```bash) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3493 >>
+stream
+BT /F1 11 Tf 1 0 0 1 50 792 Tm (   npm i -D jest supertest) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 778 Tm (   ```) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 764 Tm (2. Add scripts in `package.json`:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 750 Tm (   - `test:unit`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 736 Tm (   - `test:integration`) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 722 Tm (3. Create unit tests in `tests/unit/*.test.js`.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 708 Tm (4. Mock `Book`, `User`, `Order` model calls.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 694 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 680 Tm (EXPECTED RESULT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 666 Tm (? Unit tests run fast and independent from DB.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 652 Tm (? Edge cases are covered \(empty cart, invalid bookId, invalid action, missing filters\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 638 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 624 Tm (HOW TO VERIFY CORRECTNESS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 610 Tm (? Run:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 596 Tm (  ```bash) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 582 Tm (  npm run test:unit) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 568 Tm (  ```) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 554 Tm (? Confirm pass rate and coverage report \(if enabled\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 540 Tm (? Ensure failed assertions clearly point to logic regressions.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 526 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 512 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 498 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 484 Tm (3\) INTEGRATION TESTING) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 470 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 456 Tm (TASK) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 442 Tm (Test interaction between routes, middleware, controllers, and DB/session.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 428 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 414 Tm (GOOD INTEGRATION SCENARIOS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 400 Tm (? Register ? login ? access protected page.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 386 Tm (? Add-to-cart ? update quantity ? checkout.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 372 Tm (? Admin login ? add book ? fetch book details.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 358 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 344 Tm (STEPS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 330 Tm (1. Export app from `index.js` \(or create `app.js`\) so Supertest can import without opening) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 316 Tm (network port.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 302 Tm (2. Create `tests/integration/*.test.js`.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 288 Tm (3. Use test database \(separate schema, e.g. `bookStore_test`\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 274 Tm (4. Seed/cleanup data before and after tests.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 260 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 246 Tm (EXPECTED RESULT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 232 Tm (? Endpoints work as a sequence.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 218 Tm (? Middleware protections behave correctly \(`401/redirect` when unauthorized\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 204 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 190 Tm (HOW TO VERIFY CORRECTNESS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 176 Tm (? Run:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 162 Tm (  ```bash) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 148 Tm (  npm run test:integration) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 134 Tm (  ```) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 120 Tm (? Confirm status codes, redirects, and DB side effects are as expected.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 106 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 92 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 78 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 64 Tm (4\) PERFORMANCE TESTING) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 50 Tm () Tj ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3332 >>
+stream
+BT /F1 11 Tf 1 0 0 1 50 792 Tm (TASK) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 778 Tm (Measure at least one endpoint/flow under load.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 764 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 750 Tm (RECOMMENDED ENDPOINT FOR THIS REPO) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 736 Tm (? `GET /user/books` \(catalog rendering\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 722 Tm (? Optional: `POST /user/cart` and `/user/pay` flow) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 708 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 694 Tm (STEPS \(K6 EXAMPLE\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 680 Tm (1. Add script `performance/books-load.js`.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 666 Tm (2. Simulate virtual users hitting selected endpoint.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 652 Tm (3. Collect latency percentiles and failure rate.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 638 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 624 Tm (EXAMPLE RUN) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 610 Tm (k6 run performance/books-load.js) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 596 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 582 Tm (EXPECTED RESULT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 568 Tm (? You get avg response time, p95, throughput, and error rate.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 554 Tm (? You identify bottlenecks \(DB query time, rendering delay, session handling\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 540 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 526 Tm (HOW TO VERIFY CORRECTNESS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 512 Tm (? Report includes:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 498 Tm (  - VUs) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 484 Tm (  - duration) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 470 Tm (  - avg/p95 latency) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 456 Tm (  - requests/sec) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 442 Tm (  - non-2xx rate) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 428 Tm (? Save log/screenshot and include in repo.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 414 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 400 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 386 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 372 Tm (5\) E2E TESTING WITH PLAYWRIGHT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 358 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 344 Tm (TASK) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 330 Tm (Automate one real user scenario.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 316 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 302 Tm (STRONG SCENARIO FOR THIS REPO) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 288 Tm (User registers/logs in, browses books, adds one to cart, checks out.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 274 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 260 Tm (STEPS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 246 Tm (1. Install Playwright:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 232 Tm (   ```bash) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 218 Tm (   npm i -D @playwright/test) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 204 Tm (   npx playwright install) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 190 Tm (   ```) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 176 Tm (2. Add `playwright.config.js` and test file `tests/e2e/checkout.spec.js`.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 162 Tm (3. Start app + DB.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 148 Tm (4. Run tests:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 134 Tm (   ```bash) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 120 Tm (   npx playwright test) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 106 Tm (   ```) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 92 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 78 Tm (EXPECTED RESULT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 64 Tm (? Browser automation passes all steps without manual intervention.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 50 Tm () Tj ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 3436 >>
+stream
+BT /F1 11 Tf 1 0 0 1 50 792 Tm (HOW TO VERIFY CORRECTNESS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 778 Tm (? Playwright report shows green run.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 764 Tm (? Save trace/video/screenshot for submission evidence.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 750 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 736 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 722 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 708 Tm (6\) IN-SESSION PRACTICAL \(TDD + AI + MCP + MANUAL/VISUAL\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 694 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 680 Tm (TASK) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 666 Tm (Demonstrate testing workflow live.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 652 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 638 Tm (STEPS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 624 Tm (1. Pick a tiny feature change \(e.g., prevent cart quantity > stock\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 610 Tm (2. Write failing test first.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 596 Tm (3. Implement minimal code to pass.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 582 Tm (4. Refactor while keeping tests green.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 568 Tm (5. Show manual/visual validation in browser.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 554 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 540 Tm (EXPECTED RESULT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 526 Tm (? You can explain ?red ? green ? refactor?.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 512 Tm (? You can justify each assertion and test scope.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 498 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 484 Tm (HOW TO VERIFY CORRECTNESS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 470 Tm (? Demonstrate commit history or sequence:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 456 Tm (  - failing test commit) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 442 Tm (  - implementation commit) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 428 Tm (  - cleanup/refactor commit) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 414 Tm (? Explain why this is unit/integration/e2e.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 400 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 386 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 372 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 358 Tm (7\) BONUS: PERFORMANCE OPTIMIZATION CASE STUDY) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 344 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 330 Tm (TASK) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 316 Tm (Optimize one measurable bottleneck and prove improvement.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 302 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 288 Tm (HIGH-IMPACT CANDIDATES HERE) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 274 Tm (? Add DB indexing for frequent lookup fields.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 260 Tm (? Reduce unnecessary book queries.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 246 Tm (? Cache popular books list.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 232 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 218 Tm (STEPS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 204 Tm (1. Record baseline performance test numbers.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 190 Tm (2. Implement optimization.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 176 Tm (3. Re-run same test settings.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 162 Tm (4. Compare before vs after.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 148 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 134 Tm (EXPECTED RESULT) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 120 Tm (? Numeric improvement \(e.g., p95 drops from 900ms to 320ms\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 106 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 92 Tm (HOW TO VERIFY CORRECTNESS) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 78 Tm (? Keep both reports in repo.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 64 Tm (? Include short analysis of why performance improved.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 50 Tm () Tj ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 2606 >>
+stream
+BT /F1 11 Tf 1 0 0 1 50 792 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 778 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 764 Tm (8\) EVALUATION-CRITERIA MAPPING CHECKLIST) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 750 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 736 Tm (Use this before submission:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 722 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 708 Tm (? [ ] CI pipeline exists and is passing \(15%\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 694 Tm (? [ ] Unit tests cover normal + edge cases \(20%\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 680 Tm (? [ ] Integration tests prove real component interaction \(15%\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 666 Tm (? [ ] Performance test has results summary \(15%\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 652 Tm (? [ ] At least one Playwright E2E scenario \(15%\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 638 Tm (? [ ] Ready to explain live TDD/AI process \(20%\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 624 Tm (? [ ] Optional optimization evidence \(+10%\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 610 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 596 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 582 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 568 Tm (9\) SUBMISSION CHECKLIST \(FROM ASSIGNMENT SHEET\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 554 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 540 Tm (? [ ] Push code to GitHub/GitLab.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 526 Tm (? [ ] README explains how to run all tests.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 512 Tm (? [ ] CI status visible and green.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 498 Tm (? [ ] Performance evidence included \(log/report/screenshot\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 484 Tm (? [ ] Team members listed \(if group\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 470 Tm (? [ ] Each member can explain any part of the work.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 456 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 442 Tm (---) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 428 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 414 Tm (10\) DEFINITION OF DONE \(DOD\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 400 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 386 Tm (Your assignment is ?done? only when:) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 372 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 358 Tm (1. All automated tests pass locally.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 344 Tm (2. CI passes on remote.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 330 Tm (3. Security scan passes.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 316 Tm (4. You have evidence artifacts \(screenshots/reports\).) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 302 Tm (5. You can explain each test?s purpose and expected failure mode.) Tj ET
+BT /F1 11 Tf 1 0 0 1 50 288 Tm () Tj ET
+BT /F1 11 Tf 1 0 0 1 50 274 Tm (If any one of these is missing, submission is not fully complete.) Tj ET
+endstream
+endobj
+xref
+0 16
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000148 00000 n 
+0000000218 00000 n 
+0000000344 00000 n 
+0000003648 00000 n 
+0000003774 00000 n 
+0000007162 00000 n 
+0000007288 00000 n 
+0000010833 00000 n 
+0000010961 00000 n 
+0000014346 00000 n 
+0000014474 00000 n 
+0000017963 00000 n 
+0000018091 00000 n 
+trailer
+<< /Size 16 /Root 1 0 R >>
+startxref
+20750
+%%EOF
