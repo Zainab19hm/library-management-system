@@ -25,11 +25,6 @@
 
 ## Assignment execution guide
 
-- Markdown version: `TESTING_ASSIGNMENT_A_TO_Z.md`
-- PDF version: `TESTING_ASSIGNMENT_A_TO_Z.pdf`
+For the full A-to-Z testing assignment plan (CI/CD, unit, integration, performance, and Playwright E2E), see:
 
-To regenerate the PDF locally:
-
-```bash
-python scripts/generate_assignment_pdf.py
-```
+- `TESTING_ASSIGNMENT_A_TO_Z.md`
