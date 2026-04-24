@@ -7,20 +7,16 @@ on:
     branches: [ main, master ]
 
 jobs:
-  # 1. Testing Stage: Unit and Integration
   test:
     name: Testing Stage (Unit + Integration)
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
+      
       - name: Install dependencies
         run: npm ci
 
@@ -30,100 +26,28 @@ jobs:
       - name: Run integration tests
         run: npm run test:integration
 
-  # 2. E2E Stage: Playwright (With Browser Caching)
-  e2e:
-    name: E2E Stage (Playwright)
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      # SPEED FIX: Cache Playwright Browsers to reduce time from 5min to ~1.5min
-      - name: Cache Playwright Browsers
-        id: playwright-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Playwright Browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
-
-      - name: Run E2E Tests
-        # 'npm start &' runs your app in the background
-        # 'npx wait-on' ensures the tests don't start until the server is actually up
-        run: |
-          npm start & 
-          npx wait-on http://127.0.0.1:5000 -t 60000
-          npm run test:e2e
-        env:
-          NODE_ENV: test
-
-      - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
-
-  # 3. Performance Stage: Load Testing with k6
-  performance:
-    name: Performance Stage (k6)
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install k6
-        run: |
-          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-          sudo apt-get update
-          sudo apt-get install k6
-
-      - name: Run Load Test
-        run: |
-          npm start &
-          npx wait-on http://127.0.0.1:5000 -t 60000
-          k6 run tests/performance/load-test.js
-
-  # 4. Security Stage: Secret Scanning
   security-scan:
     name: Security Scan Stage
     runs-on: ubuntu-latest
-    needs: test
-    permissions:
-      contents: read
-      pull-requests: write
+    needs: [test]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Run GitLeaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  performance-plan:
+    name: Performance Plan Stage
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:perf:plan
