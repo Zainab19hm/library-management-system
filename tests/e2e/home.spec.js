@@ -1,9 +1,12 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
 
-test('landing page renders with expected title and role links', async ({ page }) => {
-  await page.goto('http://localhost:5000');
+test('landing page renders with expected title and role buttons', async ({ page }) => {
+  await page.goto('/'); // This navigates to your local server
+
+  // Check the title
   await expect(page).toHaveTitle(/Library Management System/i);
-  // Change 'link' to 'button'
+
+  // FIX: Use getByRole('button') instead of 'link'
   await expect(page.getByRole('button', { name: /user/i })).toBeVisible();
   await expect(page.getByRole('button', { name: /admin/i })).toBeVisible();
 });
