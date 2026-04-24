@@ -1,13 +1,20 @@
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'library_db'
-});
+if (process.env.NODE_ENV === 'test') {
+    module.exports = {
+        query: () => {
+            throw new Error('Database query called while NODE_ENV=test. Mock config/db in tests that need database access.');
+        },
+        end: () => {}
+    };
+} else {
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '1234',
+        database: 'library_db'
+    });
 
-if (process.env.NODE_ENV !== 'test') {
     connection.connect((err) => {
         if (err) {
             console.error('Error connecting to MySQL database: ', err);
@@ -15,6 +22,6 @@ if (process.env.NODE_ENV !== 'test') {
         }
         console.log('Connected to MySQL database.');
     });
-}
 
-module.exports = connection;
+    module.exports = connection;
+}
