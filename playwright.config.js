@@ -8,9 +8,10 @@ module.exports = defineConfig({
     headless: true
   },
   webServer: {
-    command: 'npm run start:test',
-    url: 'http://127.0.0.1:5000',
-    reuseExistingServer: true,
-    timeout: 120_000
+    command: 'npm run dev', // or 'npm start' - whatever starts your app
+    url: 'http://localhost:5000', // or 3000, check your local port
+    reuseExistingServer: !process.env.CI,
+    stdout: 'ignore',
+    stderr: 'pipe',
   }
 });
