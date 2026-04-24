@@ -26,10 +26,10 @@
 
 ## CI/CD Pipeline
 
-GitHub Actions runs two stages on every push, pull request, and manual dispatch:
+GitHub Actions runs two stages on every push, pull request, and manual dispatch: !
 
-- **Testing Stage**: installs dependencies, runs unit tests, then runs integration tests.
-- **Security Scan Stage**: runs GitLeaks against the repository history after the tests pass.
+- **Testing Stage**: installs dependencies, runs unit tests, then runs integration tests. !
+- **Security Scan Stage**: runs GitLeaks against the repository history after the tests pass. !
 
 ## Local GitLeaks Pre-Commit Hook
 
@@ -44,4 +44,3 @@ To run GitLeaks before every commit:
    pre-commit install
    ```
 3. GitLeaks will now run automatically before each commit.
-

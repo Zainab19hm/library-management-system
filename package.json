@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "npm run test:unit && npm run test:integration",
-    "test:unit": "jest tests/units --runInBand",
-    "test:integration": "jest tests/integration --runInBand"
+    "test": "jest" !
   },
   "keywords": [],
   "author": "",
@@ -28,8 +26,10 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
+    "eslint": "^10.2.1",
     "jest": "^30.3.0",
     "nodemon": "^3.0.3",
+    "playwright": "^1.59.1",
     "sinon": "^21.1.2",
     "supertest": "^7.2.2"
   }

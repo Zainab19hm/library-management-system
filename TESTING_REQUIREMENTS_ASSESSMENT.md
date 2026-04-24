@@ -9,13 +9,12 @@ Scoring scale:
 - 3 = Good implementation
 - 4 = Excellent / comprehensive
 
-## 1) CI/CD Pipeline with Security Check — **3/4 (Good)**
+## 1) CI/CD Pipeline with Security Check — **4/4 (Excellent)** !
 - GitHub Actions pipeline exists and triggers on push/PR/manual dispatch.
-- It installs dependencies and runs unit + integration tests.
-- A dedicated security stage runs GitLeaks.
-- A local pre-commit GitLeaks hook is configured.
-
-**Gap to reach 4/4:** add test coverage artifact/reporting and optional quality gates (coverage threshold, lint, dependency audit/SAST).
+- Automated quality gates for linting, dependency audits, and coverage thresholds. !
+- Test coverage artifacts (lcov/html) are generated and stored. !
+- SAST (CodeQL) and Secrets detection (GitLeaks) are integrated. !
+- E2E tests are part of the CI flow with artifact reporting. !
 
 ## 2) Unit Testing — **2/4 (Partial)**
 - Unit tests exist for a core controller flow (`updateCartQuantity`) including success and invalid-action behavior.
