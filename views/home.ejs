@@ -1,92 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Welcome</title>
     <script src="https://kit.fontawesome.com/496b9c5c00.js" crossorigin="anonymous"></script>
-    <title>Home Page</title>
+    <link rel="stylesheet" href="/css/design-system.css">
     <style>
         body {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: url('/img/home.jpg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
-        }
-        #h1{
-            height: 25%;
-            width: 50%;
-            background-color: rgba(0, 0, 0, 0.741);
-            margin-bottom: 30px;
-            border-radius: 8px;
-            margin-top: 7%;
-        }
-        h1 {
-            color: #fff;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            margin-bottom: 50px;
-            font-size: 320%;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            gap: 40px;
-        }
-        .box {
-            background: rgba(244, 222, 32, 0.8);
-            border-radius: 15px;
-            padding: 50px 30px;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s, box-shadow 0.3s;
-            width: 200px;
-            height: 200px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            font-family: var(--font-primary);
+            position: relative;
+            overflow: hidden;
         }
-        .box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+
+        /* Animated background gradient */
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
-        .box i {
-            font-size: 5em; /* Adjust the size of the icons here */
-            margin-bottom: 20px;
+
+        /* Decorative elements */
+        .bg-decoration {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
         }
-        button {
-            background: rgba(0, 123, 255, 0.6);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 5px;
-            font-size: 18px;
+
+        .decoration-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--color-primary);
+            top: -250px;
+            right: -250px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .decoration-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--color-secondary);
+            bottom: -200px;
+            left: -200px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(20px, 20px);
+            }
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title-wrapper {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius-2xl);
+            padding: 3rem 4rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #14b8a6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+
+            50% {
+                filter: brightness(1.2);
+            }
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .role-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-2xl);
+            padding: 3rem 2.5rem;
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(20, 184, 166, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .role-card:hover::before {
+            opacity: 1;
+        }
+
+        .role-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: var(--shadow-2xl), 0 0 40px rgba(139, 92, 246, 0.4);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .role-card.user-card:hover {
+            box-shadow: var(--shadow-2xl), 0 0 40px rgba(139, 92, 246, 0.6);
+        }
+
+        .role-card.admin-card:hover {
+            box-shadow: var(--shadow-2xl), 0 0 40px rgba(20, 184, 166, 0.6);
+        }
+
+        .icon-wrapper {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            position: relative;
+            transition: transform 0.4s ease;
+        }
+
+        .user-card .icon-wrapper {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .admin-card .icon-wrapper {
+            background: linear-gradient(135deg, #14b8a6 0%, #2dd4bf 100%);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
+        }
+
+        .role-card:hover .icon-wrapper {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .icon-wrapper i {
+            font-size: 4rem;
             color: white;
         }
-        button:hover {
-            background: rgba(0, 123, 255, 0.8);
-            transform: scale(1.1);
+
+        .role-label {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .role-description {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .role-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: var(--font-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-card .role-btn {
+            background: var(--gradient-secondary);
+            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+        }
+
+        .role-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .role-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .role-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+        }
+
+        .admin-card .role-btn:hover {
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.5);
+        }
+
+        .role-btn span {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-title-wrapper {
+                padding: 2rem 1.5rem;
+            }
+
+            .cards-container {
+                gap: 2rem;
+            }
+
+            .role-card {
+                width: 240px;
+                padding: 2rem 1.5rem;
+            }
+
+            .icon-wrapper {
+                width: 100px;
+                height: 100px;
+            }
+
+            .icon-wrapper i {
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div id="h1">
-        <h1>Welcome to the Online Library Management System</h1>
-    </div>
-    <div class="container">
-        <div class="box">
-            <i class="fa-solid fa-user"></i>
-            <button onclick="window.location.href='/user/register'">User</button>
+    <!-- Background Decorations -->
+    <div class="bg-decoration decoration-1"></div>
+    <div class="bg-decoration decoration-2"></div>
+
+    <!-- Hero Section -->
+    <div class="hero-container">
+        <div class="hero-title-wrapper">
+            <h1 class="hero-title">
+                <i class="fa-solid fa-book-open"></i><br>
+                Library Management System
+            </h1>
         </div>
-        <div class="box">
-            <i class="fa-solid fa-user-tie"></i>
-            <button onclick="window.location.href='/admin/adminLogin'">Admin</button>
+
+        <!-- Role Selection Cards -->
+        <div class="cards-container">
+            <!-- User Card -->
+            <div class="role-card user-card" onclick="window.location.href='/user/register'">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h2 class="role-label">User Portal</h2>
+                <p class="role-description">Browse books, manage your cart, and place orders</p>
+                <button class="role-btn">
+                    <span>
+                        Enter as User
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Admin Card -->
+            <div class="role-card admin-card" onclick="window.location.href='/admin/adminLogin'">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h2 class="role-label">Admin Portal</h2>
+                <p class="role-description">Manage books, view orders, and oversee operations</p>
+                <button class="role-btn">
+                    <span>
+                        Enter as Admin
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                </button>
+            </div>
         </div>
     </div>
 </body>
+
 </html>

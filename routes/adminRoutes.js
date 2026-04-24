@@ -12,6 +12,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// Redirect /admin to /admin/adminLogin
+router.get('/', (req, res) => {
+    res.redirect('/admin/adminLogin');
+});
+
 // Admin login
 router.get('/adminLogin', (req, res) => res.render('admin/login'));
 router.post('/adminLogin', AdminController.login);
@@ -19,6 +24,7 @@ router.post('/adminLogin', AdminController.login);
 
 router.get('/dashboard', requireLogin, AdminController.allUsers);
 router.get('/userOrders/:userId', requireLogin, AdminController.getUserOrders);
+router.get('/deleteUser/:userId', requireLogin, AdminController.deleteUser);
 
 router.get('/addBook', requireLogin, (req, res) => {
     Book.getAllBooks((err, books) => {

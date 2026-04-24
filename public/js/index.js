@@ -24,14 +24,20 @@ function addToCart(bookId, bookName) {
         },
         body: JSON.stringify({ bookId: bookId })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            showMessage(`${bookName} added to cart`, 'success');
-        }
-        updateCartDisplay(data.cart);
-    })
-    .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                showMessage(`${bookName} added to cart`, 'success');
+            }
+            if (data.newStock !== undefined) {
+                const stockElement = document.getElementById(`stock-${bookId}`);
+                if (stockElement) {
+                    stockElement.innerHTML = `<i class="fa-solid fa-box"></i> ${data.newStock} left`;
+                }
+            }
+            updateCartDisplay(data.cart);
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function updateQuantity(bookId, bookName, action) {
@@ -42,14 +48,14 @@ function updateQuantity(bookId, bookName, action) {
         },
         body: JSON.stringify({ action: action })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showMessage(`Cart updated for ${bookName}`, 'success');
-            updateCartDisplay(data.cart);
-        }
-    })
-    .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showMessage(`Cart updated for ${bookName}`, 'success');
+                updateCartDisplay(data.cart);
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function removeFromCart(bookId) {
@@ -59,70 +65,115 @@ function removeFromCart(bookId) {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showMessage('Book removed from cart successfully', 'success');
-            updateCartDisplay(data.cart);
-        }
-    })
-    .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showMessage('Book removed from cart successfully', 'success');
+                updateCartDisplay(data.cart);
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function updateCartDisplay(cart) {
     const cartElement = document.getElementById('cart');
     if (cartElement) {
         let totalAmount = 0;
-        let cartHTML = `
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Book</th>
-                        <th>Author</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-        cart.forEach(item => {
-            let bookPrice = parseFloat(item.bookDetails.book_price);
-            if (isNaN(bookPrice)) {
-                console.error('Invalid price for item:', item.bookDetails);
-                bookPrice = 0;
-            }
-            let itemTotal = bookPrice * item.bookDetails.quantity;
-            totalAmount += itemTotal;
-            cartHTML += `
-                <tr>
-                    <td><img src="/img/${item.bookDetails.book_img}" alt="" style="width: 100px; height: 150px;"></td>
-                    <td>${item.bookDetails.book_name}</td>
-                    <td>${item.bookDetails.book_author}</td>
-                    <td>₹${bookPrice.toFixed(2)}</td>
-                    <td>
-                        <button class="btn btn-light" onclick="updateQuantity('${item.bookDetails.book_id}', '${item.bookDetails.book_name}', 'decrease')">-</button>
-                        ${item.bookDetails.quantity}
-                        <button class="btn btn-light" onclick="updateQuantity('${item.bookDetails.book_id}', '${item.bookDetails.book_name}', 'increase')">+</button>
-                    </td>
-                    <td>₹${itemTotal.toFixed(2)}</td>
-                    <td>
-                        <button class="btn btn-danger" onclick="removeFromCart('${item.bookDetails.book_id}')">Remove</button>
-                    </td>
-                </tr>
+
+        if (cart && cart.length > 0) {
+            let cartHTML = `
+                <div class="table-responsive">
+                    <table class="table cart-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Book</th>
+                                <th>Author</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             `;
-        });
-        cartHTML += `
-                </tbody>
-            </table>
-            <div class="text-right">
-                <h4>Total: ₹${totalAmount.toFixed(2)}</h4>
-                <button class="btn btn-success" onclick="proceedToPay()">Proceed to Pay</button>
-            </div>
-        `;
-        cartElement.innerHTML = cartHTML;
+
+            cart.forEach(item => {
+                let bookPrice = parseFloat(item.book_price);
+                if (isNaN(bookPrice)) {
+                    console.error('Invalid price for item:', item);
+                    bookPrice = 0;
+                }
+                let itemTotal = bookPrice * item.quantity;
+                totalAmount += itemTotal;
+
+                cartHTML += `
+                    <tr>
+                        <td>
+                            <div class="book-img-wrapper">
+                                <img src="/img/${item.book_img}" alt="${item.book_name}">
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <span class="book-title">
+                                ${item.book_name}
+                            </span>
+                        </td>
+                        <td class="align-middle">
+                            <span class="book-author">
+                                ${item.book_author}
+                            </span>
+                        </td>
+                        <td class="align-middle">₹${bookPrice.toFixed(2)}</td>
+                        <td class="align-middle">
+                            <div class="quantity-control">
+                                <button class="btn-qty" onclick="updateQuantity('${item.book_id}', '${item.book_name}', 'decrease')">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+                                <span class="qty-display">
+                                    ${item.quantity}
+                                </span>
+                                <button class="btn-qty" onclick="updateQuantity('${item.book_id}', '${item.book_name}', 'increase')">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="align-middle font-weight-bold">₹${itemTotal.toFixed(2)}</td>
+                        <td class="align-middle">
+                            <button class="btn-remove" onclick="removeFromCart('${item.book_id}')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            cartHTML += `
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="total-amount">
+                        <span>Total Amount:</span>
+                        <span class="amount">₹${totalAmount.toFixed(2)}</span>
+                    </div>
+                    <button class="btn-checkout" onclick="proceedToPay()">
+                        Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            `;
+            cartElement.innerHTML = cartHTML;
+        } else {
+            cartElement.innerHTML = `
+                <div class="empty-cart-state">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <h3>Your cart is empty</h3>
+                    <p>Looks like you haven't added any books yet.</p>
+                    <a href="/user/books" class="btn-browse">Browse Books</a>
+                </div>
+            `;
+        }
     }
 }
 

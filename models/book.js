@@ -41,6 +41,17 @@ const Book = {
 
   deleteBook(bookId, callback) {
     db.query('DELETE FROM books WHERE book_id = ?', [bookId], callback);
+  },
+
+  updateStock(bookId, change, callback) {
+    db.query(
+      'UPDATE books SET book_quantity = book_quantity + ? WHERE book_id = ?',
+      [change, bookId],
+      (err, result) => {
+        if (err) return callback(err);
+        callback(null, result);
+      }
+    );
   }
 };
 

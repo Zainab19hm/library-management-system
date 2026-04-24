@@ -99,6 +99,14 @@ const AdminController = {
       if (err) return res.status(500).json({ error: 'Failed to update order' });
       res.redirect('/admin/allOrders');
     });
+  },
+
+  deleteUser: function (req, res) {
+    const userId = req.params.userId;
+    User.deleteUser(userId, (err) => {
+      if (err) return res.status(500).json({ error: 'Failed to delete user' });
+      res.redirect('/admin/dashboard');
+    });
   }
 };
 

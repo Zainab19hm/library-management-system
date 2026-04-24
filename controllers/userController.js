@@ -12,7 +12,13 @@ const userController = {
     const hashedPassword = hashSync(password, salt);
 
     User.createUser(name, email, hashedPassword, city, phone, gender, (err, userId) => {
-      if (err) return res.status(500).json({ error: err });
+      if (err) {
+        // Check if email already exists
+        const errorMessage = err.code === 'ER_DUP_ENTRY'
+          ? 'Email already registered. Please use a different email or login.'
+          : 'Registration failed. Please try again.';
+        return res.render('user/register', { error: errorMessage });
+      }
       res.redirect('/user/userLogin');
     });
   },
@@ -20,15 +26,15 @@ const userController = {
   login: function (req, res) {
     const { email, password } = req.body;
     User.findByEmail(email, (err, user) => {
-      if (err) return res.status(500).json({ error: 'Internal server error' });
-      if (!user) return res.status(404).json({ error: 'User not found' });
+      if (err) return res.render('user/login', { error: 'Server error. Please try again later.' });
+      if (!user) return res.render('user/login', { error: 'No account found with this email address.' });
 
       if (compareSync(password, user.password)) {
-        const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
+        const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, JWT_SECRET);
         res.cookie('token', token, { httpOnly: true });
         res.redirect('/user/index');
       } else {
-        res.status(401).json({ error: 'Invalid credentials' });
+        res.render('user/login', { error: 'Incorrect password. Please try again.' });
       }
     });
   },
@@ -69,15 +75,33 @@ const userController = {
       if (err) return res.status(500).json({ error: 'Failed to fetch book' });
       if (!book) return res.status(404).json({ error: 'Book not found' });
 
-      if (!req.session.cart) req.session.cart = [];
-      const existing = req.session.cart.find(item => item.book_id === book.book_id);
-      if (existing) existing.quantity += 1;
-      else {
-        book.quantity = 1;
-        req.session.cart.push(book);
+      if (book.book_quantity <= 0) {
+        return res.json({ success: false, message: 'Out of Stock' });
       }
 
-      res.json({ success: true, cart: req.session.cart });
+      // Decrement stock in DB
+      Book.updateStock(bookId, -1, (err) => {
+        if (err) return res.status(500).json({ error: 'Failed to update stock' });
+
+        if (!req.session.cart) req.session.cart = [];
+        const existing = req.session.cart.find(item => item.book_id === book.book_id);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          book.quantity = 1;
+          req.session.cart.push(book);
+        }
+
+        // Calculate new stock
+        const newStock = book.book_quantity - 1;
+
+        res.json({
+          success: true,
+          cart: req.session.cart,
+          message: 'Added to cart',
+          newStock: newStock
+        });
+      });
     });
   },
 
@@ -93,22 +117,51 @@ const userController = {
     const item = cart.find(i => i.book_id == bookId);
 
     if (item) {
-      if (action === 'increase') item.quantity += 1;
-      else if (action === 'decrease' && item.quantity > 1) item.quantity -= 1;
-      return res.json({ success: true, cart });
+      if (action === 'increase') {
+        // Check stock availability first
+        Book.getBookById(bookId, (err, book) => {
+          if (err || !book) return res.json({ success: false, message: 'Error checking stock' });
+
+          if (book.book_quantity > 0) {
+            Book.updateStock(bookId, -1, (err) => {
+              if (err) return res.json({ success: false });
+              item.quantity += 1;
+              res.json({ success: true, cart });
+            });
+          } else {
+            res.json({ success: false, message: 'Out of Stock' });
+          }
+        });
+      } else if (action === 'decrease' && item.quantity > 1) {
+        Book.updateStock(bookId, 1, (err) => {
+          if (err) return res.json({ success: false });
+          item.quantity -= 1;
+          res.json({ success: true, cart });
+        });
+      } else {
+        res.json({ success: false });
+      }
+    } else {
+      res.json({ success: false });
     }
-    res.json({ success: false });
   },
 
   removeFromCart: function (req, res) {
     const { bookId } = req.params;
     const cart = req.session.cart || [];
     const index = cart.findIndex(i => i.book_id == bookId);
+
     if (index > -1) {
-      cart.splice(index, 1);
-      return res.json({ success: true, cart });
+      const item = cart[index];
+      // Return stock to DB
+      Book.updateStock(bookId, item.quantity, (err) => {
+        if (err) return res.json({ success: false });
+        cart.splice(index, 1);
+        res.json({ success: true, cart });
+      });
+    } else {
+      res.json({ success: false });
     }
-    res.json({ success: false });
   },
 
   checkout: function (req, res) {

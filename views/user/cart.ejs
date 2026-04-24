@@ -1,64 +1,291 @@
 <%- include('../layout/user_header') %>
-<link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 
-<div class="container">
-    <h3>Your Cart</h3>
-    <div id="message"></div>
-    <div id="cart">
-        <% if (cart && cart.length > 0) { %>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Book</th>
-                        <th>Author</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% let totalAmount = 0; %>
-                    <% cart.forEach(item => { %>
-                        <% 
-                            let bookPrice = parseFloat(item.bookDetails.book_price);
-                            if (isNaN(bookPrice)) {
-                                console.error('Invalid price for item:', item.bookDetails);
-                                bookPrice = 0;
-                            }
-                            let itemTotal = bookPrice * item.bookDetails.quantity;
-                            totalAmount += itemTotal; 
-                        %>
-                        <tr>
-                            <td><img src="/img/<%= item.bookDetails.book_img %>" alt="" style="width: 100px; height: 150px;"></td>
-                            <td><%= item.bookDetails.book_name %></td>
-                            <td><%= item.bookDetails.book_author %></td>
-                            <td>₹<%= bookPrice.toFixed(2) %></td>
-                            <td>
-                                <button class="btn btn-light" onclick="updateQuantity('<%= item.bookDetails.book_id %>', '<%= item.bookDetails.book_name %>', 'decrease')">-</button>
-                                <%= item.bookDetails.quantity %>
-                                <button class="btn btn-light" onclick="updateQuantity('<%= item.bookDetails.book_id %>', '<%= item.bookDetails.book_name %>', 'increase')">+</button>
-                            </td>
-                            <td>₹<%= itemTotal.toFixed(2) %></td>
-                            <td>
-                                <button class="btn btn-danger" onclick="removeFromCart('<%= item.bookDetails.book_id %>')">Remove</button>
-                            </td>
-                        </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-            <div class="text-right">
-                <h4>Total: ₹<%= totalAmount.toFixed(2) %></h4>
-                <button class="btn btn-success" onclick="proceedToPay()">Proceed to Pay</button>
-            </div>
-        <% } else { %>
-            <div class="alert alert-warning" role="alert">
-                Your cart is empty.
-            </div>
-        <% } %>
+    <div class="container">
+        <br>
+        <br>
+        <h3 class="text-center"
+            style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #fff; margin-bottom: 2rem;">Your Cart
+        </h3>
+        <div id="message"></div>
+        <div id="cart" class="cart-container">
+            <% if (cart && cart.length> 0) { %>
+                <div class="table-responsive">
+                    <table class="table cart-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Book</th>
+                                <th>Author</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let totalAmount=0; %>
+                                <% cart.forEach(item=> { %>
+                                    <% let bookPrice=parseFloat(item.book_price); if (isNaN(bookPrice)) {
+                                        console.error('Invalid price for item:', item); bookPrice=0; } let
+                                        itemTotal=bookPrice * item.quantity; totalAmount +=itemTotal; %>
+                                        <tr>
+                                            <td>
+                                                <div class="book-img-wrapper">
+                                                    <img src="/img/<%= item.book_img %>" alt="<%= item.book_name %>">
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span class="book-title">
+                                                    <%= item.book_name %>
+                                                </span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span class="book-author">
+                                                    <%= item.book_author %>
+                                                </span>
+                                            </td>
+                                            <td class="align-middle">₹<%= bookPrice.toFixed(2) %>
+                                            </td>
+                                            <td class="align-middle">
+                                                <div class="quantity-control">
+                                                    <button class="btn-qty"
+                                                        onclick="updateQuantity('<%= item.book_id %>', '<%= item.book_name %>', 'decrease')">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </button>
+                                                    <span class="qty-display">
+                                                        <%= item.quantity %>
+                                                    </span>
+                                                    <button class="btn-qty"
+                                                        onclick="updateQuantity('<%= item.book_id %>', '<%= item.book_name %>', 'increase')">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle font-weight-bold">₹<%= itemTotal.toFixed(2) %>
+                                            </td>
+                                            <td class="align-middle">
+                                                <button class="btn-remove"
+                                                    onclick="removeFromCart('<%= item.book_id %>')">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="total-amount">
+                        <span>Total Amount:</span>
+                        <span class="amount">₹<%= totalAmount.toFixed(2) %></span>
+                    </div>
+                    <button class="btn-checkout" onclick="proceedToPay()">
+                        Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <% } else { %>
+                    <div class="empty-cart-state">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <h3>Your cart is empty</h3>
+                        <p>Looks like you haven't added any books yet.</p>
+                        <a href="/user/books" class="btn-browse">Browse Books</a>
+                    </div>
+                    <% } %>
+        </div>
     </div>
-</div>
 
-<script src="/js/index.js"></script>
-<%- include('../layout/user_footer') %>
+    <style>
+        /* Cart Specific Styles */
+        .cart-container {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .cart-table th {
+            background: rgba(15, 23, 42, 0.6);
+            color: var(--color-text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            border: none;
+        }
+
+        .cart-table td {
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-primary);
+            vertical-align: middle;
+        }
+
+        .book-img-wrapper {
+            width: 60px;
+            height: 90px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .book-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-title {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .book-author {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.4);
+            padding: 0.25rem;
+            border-radius: var(--radius-lg);
+            width: fit-content;
+        }
+
+        .btn-qty {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-qty:hover {
+            background: var(--color-primary);
+        }
+
+        .qty-display {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .btn-remove {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--color-error);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-remove:hover {
+            background: var(--color-error);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .cart-summary {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1.5rem;
+        }
+
+        .total-amount {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .total-amount .amount {
+            font-size: 2rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--color-success);
+        }
+
+        .btn-checkout {
+            background: var(--gradient-success, linear-gradient(135deg, #10b981 0%, #059669 100%));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius-lg);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .empty-cart-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-cart-state i {
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-cart-state h3 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-cart-state p {
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .btn-browse {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-browse:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: white;
+        }
+    </style>
+
+    <script src="/js/index.js"></script>
+    <%- include('../layout/user_footer') %>

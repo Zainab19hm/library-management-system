@@ -1,104 +1,268 @@
 <%- include('../layout/user_header') %>
-<link rel="stylesheet" href="/css/popular_books.css">
-<style>
-  .book-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 20px;
-  }
-  .book-image {
-    margin-right: 30px;
-  }
-  .book-details {
-    max-width: 600px;
-  }
-  .book-details table {
-    width: 100%;
-  }
-  .book-details td {
-    padding: 8px;
-  }
-  .add-to-cart {
-    margin-top: 20px;
-  }
- 
-</style>
+  <link rel="stylesheet" href="/css/popular_books.css">
 
-<center>
-  <h3>Book Details</h3>
+  <style>
+    /* Page Specific Styles */
+    .book-details-section {
+      padding: var(--spacing-2xl) 0;
+    }
 
-  <div class="book-container container mt-4">
-    <div class="book-image">
-      <img
-        src="/img/<%= book.bookDetails.book_img %>"
-        alt="<%= book.bookDetails.book_name %>"
-        width="200"
-      />
+    .book-details-card {
+      background: var(--color-bg-secondary);
+      border-radius: var(--radius-2xl);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      box-shadow: var(--shadow-2xl);
+    }
+
+    .book-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 0;
+    }
+
+    /* Left Column: Image */
+    .book-image-container {
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      min-height: 500px;
+      background: var(--color-bg-tertiary);
+    }
+
+    .book-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow);
+    }
+
+    .book-image-container:hover img {
+      transform: scale(1.05);
+    }
+
+    .book-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.8) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Right Column: Content */
+    .book-info-container {
+      padding: var(--spacing-2xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .book-meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(139, 92, 246, 0.1);
+      color: var(--color-primary-light);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      width: fit-content;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .book-title-large {
+      font-family: var(--font-heading);
+      font-size: var(--font-size-4xl);
+      font-weight: var(--font-weight-bold);
+      line-height: 1.2;
+      margin-bottom: var(--spacing-sm);
+      background: linear-gradient(to right, #fff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .book-author-large {
+      font-size: var(--font-size-xl);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-xl);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .book-author-large i {
+      color: var(--color-accent);
+    }
+
+    .book-description-box {
+      background: var(--color-bg-tertiary);
+      padding: var(--spacing-lg);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--spacing-xl);
+      border-left: 4px solid var(--color-primary);
+    }
+
+    .book-description-text {
+      color: var(--color-text-secondary);
+      line-height: 1.8;
+      font-size: var(--font-size-base);
+    }
+
+    .book-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+      padding-bottom: var(--spacing-xl);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: var(--font-size-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+    }
+
+    .stat-value {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .book-actions-large {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-lg);
+    }
+
+    .price-tag-large {
+      font-family: var(--font-heading);
+      font-size: 3rem;
+      font-weight: var(--font-weight-bold);
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .btn-cart-large {
+      flex-grow: 1;
+      padding: 1rem 2rem;
+      font-size: var(--font-size-lg);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: all var(--transition-base);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .book-details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .book-image-container {
+        min-height: 300px;
+        max-height: 400px;
+      }
+    }
+  </style>
+
+  <div id="message"></div>
+
+  <div class="container book-details-section">
+    <!-- Back Button -->
+    <div class="mb-4">
+      <a href="/user/index" class="btn btn-outline btn-sm">
+        <i class="fa-solid fa-arrow-left"></i> Back to Library
+      </a>
     </div>
-    <div class="book-details">
-      <table>
-        <tr>
-          <td>Book Id:</td>
-          <td><%= book.bookDetails.book_id %></td>
-        </tr>
-        <tr>
-          <td>Title:</td>
-          <td><%= book.bookDetails.book_name %></td>
-        </tr>
-        <tr>
-          <td>Author:</td>
-          <td><%= book.bookDetails.book_author %></td>
-        </tr>
-        <tr>
-            <td>Category:</td>
-            <td><%= book.bookDetails.book_category %></td>
-          </tr>
-        <tr>
-          <td>Description:</td>
-          <td><%= book.bookDetails.book_desc %></td>
-        </tr>
-        <tr>
-          <td>Price:</td>
-          <td>$<%= book.bookDetails.book_price %></td>
-        </tr>
-        <tr>
-          <td>Quantity:</td>
-          <td><%= book.bookDetails.book_quantity %></td>
-        </tr>
-      </table>
-      <div class="add-to-cart">
-        <button class="btn btn-info" onclick="addToCart('<%= book.bookDetails.book_id %>')">
-          Add to Cart
-        </button>
+
+    <!-- Main Card -->
+    <div class="book-details-card">
+      <div class="book-details-grid">
+        <!-- Left: Image -->
+        <div class="book-image-container">
+          <img src="/img/<%= book.book_img %>" alt="<%= book.book_name %>">
+          <div class="book-image-overlay"></div>
+        </div>
+
+        <!-- Right: Content -->
+        <div class="book-info-container">
+          <div class="book-meta-badge">
+            <i class="fa-solid fa-bookmark"></i>
+            <%= book.book_category %>
+          </div>
+
+          <h1 class="book-title-large">
+            <%= book.book_name %>
+          </h1>
+
+          <div class="book-author-large">
+            <i class="fa-solid fa-pen-nib"></i>
+            <span>By <%= book.book_author %></span>
+          </div>
+
+          <div class="book-description-box">
+            <p class="book-description-text">
+              <%= book.book_desc %>
+            </p>
+          </div>
+
+          <div class="book-stats">
+            <div class="stat-item">
+              <span class="stat-label">Stock Status</span>
+              <span class="stat-value" id="stock-<%= book.book_id %>">
+                <% if(book.book_quantity> 0) { %>
+                  <span class="text-secondary"><i class="fa-solid fa-check-circle"></i>
+                    <%= book.book_quantity %> Available
+                  </span>
+                  <% } else { %>
+                    <span class="text-muted"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</span>
+                    <% } %>
+              </span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Product ID</span>
+              <span class="stat-value">#<%= book.book_id %></span>
+            </div>
+          </div>
+
+          <div class="book-actions-large">
+            <div class="price-tag-large">$<%= book.book_price %>
+            </div>
+
+            <% if(book.book_quantity> 0) { %>
+              <button class="btn btn-primary btn-cart-large"
+                onclick="addToCart('<%= book.book_id %>', '<%= book.book_name %>')">
+                <i class="fa-solid fa-cart-plus"></i>
+                Add to Cart
+              </button>
+              <% } else { %>
+                <button class="btn btn-secondary btn-cart-large" disabled>
+                  <i class="fa-solid fa-ban"></i>
+                  Out of Stock
+                </button>
+                <% } %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <section id="related-books-container" class="popular-books-container container">
-    <h3>Books Related To - <%= book.bookDetails.book_category %></h3>
-    <% if (booksInSameCategory && booksInSameCategory.length > 0) { %>
-        <div class="card-deck">
-            <% booksInSameCategory.forEach(book => { %>
-                <div class="card">
-                    <img src="/img/<%= book.book_img %>" class="card-img-top" alt="<%= book.book_name %>">
-                    <div class="card-body">
-                        <h5 class="card-title" id="<%= book.book_name %>"><%= book.book_name %></h5>
-                        <p class="card-text"><strong>Author:</strong> <%= book.book_author %></p>
-                        <p class="card-text"><strong>Category:</strong> <%= book.book_category %></p>
-                        <p class="card-text"><strong>Price:</strong> $<%= book.book_price %></p>
-                        <p class="card-text"><strong>Quantity:</strong> <%= book.book_quantity %></p>
-                        <p class="card-text"><strong>Purchases:</strong> <%= book.book_purchase %></p>
-                        <button class="btn btn-info" onclick="viewBook('<%= book.book_id %>')">View</button>
-                        <button class="btn btn-info" onclick="addToCart('<%= book.book_id %>')">Add to Cart</button>
-                    </div>
-                </div>
-            <% }); %>
-        </div>
-    <% } else { %>
-        <p>No related books available at the moment.</p>
-    <% } %>
-  </section>
-</center>
-<script src="/js/index.js"></script>
-<%- include('../layout/user_footer') %>
+  <script src="/js/index.js"></script>
+  <%- include('../layout/user_footer') %>

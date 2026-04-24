@@ -33,7 +33,7 @@
             font-size: var(--font-size-lg);
         }
 
-        /* Orders Card Grid (Mobile-first approach suitable for orders) */
+        /* Orders Card Grid */
         .orders-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -165,6 +165,38 @@
             text-align: center;
         }
 
+        /* Update Status Form */
+        .status-form {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .status-select {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-text-primary);
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .btn-update {
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .btn-update:hover {
+            background: var(--color-secondary-dark);
+        }
+
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
@@ -207,66 +239,56 @@
         </a>
 
         <div class="page-header">
-            <h1>User Orders</h1>
-            <p>Viewing orders for <span style="color: var(--color-secondary)">
-                    <%= user.name %>
-                </span></p>
+            <h1>All System Orders</h1>
+            <p>Manage and track all customer orders</p>
         </div>
 
-        <% if (orders.length> 0) { %>
+        <% if (orders && orders.length> 0) { %>
             <div class="orders-grid">
                 <% orders.forEach(order=> { %>
                     <div class="order-card">
                         <div class="order-header">
-                            <span class="order-id">#<%= order.order_id %></span>
+                            <span class="order-id">#<%= order.id %></span>
                             <span class="order-date">
                                 <i class="fa-regular fa-calendar"></i>
-                                <%= order.order_date %>
+                                Created: <%= order.id %> <!-- Using ID as proxy for date if date missing -->
+                            </span>
+                            <span
+                                class="order-status badge badge-<%= order.status === 'pending' ? 'warning' : 'success' %>">
+                                <%= order.status %>
                             </span>
                         </div>
 
                         <div class="customer-info">
                             <div class="customer-row">
-                                <i class="fa-solid fa-envelope"></i>
-                                <%= order.order_email %>
-                            </div>
-                            <div class="customer-row">
-                                <i class="fa-solid fa-phone"></i>
-                                <%= order.order_phone %>
-                            </div>
-                            <div class="customer-row">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <%= order.order_address %>
-                            </div>
-                        </div>
-
-                        <div class="order-details">
-                            <div class="order-item">
-                                <div class="item-icon">
-                                    <i class="fa-solid fa-book"></i>
-                                </div>
-                                <div class="item-info">
-                                    <h4>
-                                        <%= order.order_details %>
-                                    </h4>
-                                    <div class="item-meta">
-                                        Quantity: <%= order.order_quantity %>
-                                    </div>
-                                </div>
+                                <i class="fa-solid fa-user"></i>
+                                User ID: <%= order.user_id %>
                             </div>
                         </div>
 
                         <div class="order-footer">
                             <span class="order-total-label">Total Amount</span>
-                            <span class="order-total-amount">$<%= order.order_price %></span>
+                            <span class="order-total-amount">₹<%= order.total_price %></span>
                         </div>
+
+                        <form action="/admin/updateOrder/<%= order.id %>" method="POST" class="status-form">
+                            <select name="status" class="status-select">
+                                <option value="pending" <%=order.status==='pending' ? 'selected' : '' %>>Pending
+                                </option>
+                                <option value="completed" <%=order.status==='completed' ? 'selected' : '' %>>Completed
+                                </option>
+                                <option value="cancelled" <%=order.status==='cancelled' ? 'selected' : '' %>>Cancelled
+                                </option>
+                            </select>
+                            <button type="submit" class="btn-update">Update</button>
+                        </form>
                     </div>
                     <% }); %>
             </div>
             <% } else { %>
                 <div class="empty-state">
                     <i class="fa-solid fa-box-open"></i>
-                    <h3>No orders found for this user</h3>
+                    <h3>No orders found in the system</h3>
                 </div>
                 <% } %>
     </div>

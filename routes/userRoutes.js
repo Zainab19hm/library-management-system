@@ -3,10 +3,10 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const authenticateToken = require('../middleware/authMiddleware');
 
-router.get('/register', (req, res) => res.render('user/register'));
+router.get('/register', (req, res) => res.render('user/register', { error: null }));
 router.post('/register', userController.register);
 
-router.get('/userLogin', (req, res) => res.render('user/login'));
+router.get('/userLogin', (req, res) => res.render('user/login', { error: null }));
 router.post('/userLogin', userController.login);
 router.get('/logout', userController.logout);
 

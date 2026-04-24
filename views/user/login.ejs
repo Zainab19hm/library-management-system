@@ -1,46 +1,243 @@
-<!-- views/user/login.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
-    <!-- Bootstrap CSS -->
+    <title>User Login - Library System</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <script src="https://kit.fontawesome.com/496b9c5c00.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background decoration */
+        .bg-decoration {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+        }
+
+        .decoration-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--color-primary);
+            top: -300px;
+            right: -300px;
+        }
+
+        .decoration-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--color-secondary);
+            bottom: -250px;
+            left: -250px;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 450px;
+            padding: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-2xl);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            text-align: center;
+            border: none;
+        }
+
+        .card-header i {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-header h2 {
+            color: white;
+            font-family: var(--font-heading);
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-medium);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group label i {
+            color: var(--color-primary);
+        }
+
+        .form-control {
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-primary);
+            padding: 0.875rem 1rem;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .form-control:focus {
+            background: var(--color-bg-tertiary);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            color: var(--color-text-primary);
+        }
+
+        .form-control::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-lg);
+            transition: all var(--transition-base);
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .card-footer {
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid var(--color-border);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .card-footer a {
+            color: var(--color-primary-light);
+            font-weight: var(--font-weight-medium);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .card-footer a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .card-header h2 {
+                font-size: var(--font-size-2xl);
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h2>User Login</h2>
+    <!-- Background Decorations -->
+    <div class="bg-decoration decoration-1"></div>
+    <div class="bg-decoration decoration-2"></div>
+
+    <div class="login-container">
+        <div class="card login-card">
+            <div class="card-header">
+                <i class="fa-solid fa-user-circle"></i>
+                <h2>User Login</h2>
+            </div>
+            <div class="card-body">
+                <% if (error) { %>
+                    <div class="alert alert-error animate-slide-down" role="alert">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <%= error %>
                     </div>
-                    <div class="card-body">
+                    <% } %>
                         <form action="/user/userLogin" method="POST">
                             <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <label for="email">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    Email Address
+                                </label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Enter your email" required>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password:</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <label for="password">
+                                    <i class="fa-solid fa-lock"></i>
+                                    Password
+                                </label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Enter your password" required>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-sign-in-alt"></i> Login
+                            </button>
                         </form>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="/user/register">New User?</a>
-                    </div>
-                </div>
+            </div>
+            <div class="card-footer">
+                <span style="color: var(--color-text-muted);">New user?</span>
+                <a href="/user/register">Create an account</a>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

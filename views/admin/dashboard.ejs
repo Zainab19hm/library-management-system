@@ -1,81 +1,257 @@
-<%- include('../layout/header') %> 
-<style>
-    /* Add this to your custom CSS file */
+<%- include('../layout/header') %>
+    <link rel="stylesheet" href="/css/design-system.css">
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-}
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: var(--color-text-primary);
+        }
 
-.container {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
+        .dashboard-container {
+            padding: 2rem 0;
+        }
 
-h1 {
-    color: #343a40;
-}
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
 
-.table thead th {
-    background-color: #343a40;
-    color: #ffffff;
-}
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
 
-.btn-info {
-    background-color: #17a2b8;
-    border: none;
-}
+        .page-header p {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+        }
 
-.btn-info:hover {
-    background-color: #138496;
-}
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
 
-.btn-primary {
-    background-color: #007bff;
-    border: none;
-}
+        .user-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            transition: all var(--transition-base);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
+        .user-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl), 0 0 20px rgba(20, 184, 166, 0.1);
+            border-color: rgba(20, 184, 166, 0.4);
+        }
 
-</style>
-<div class="container mt-5">
-    <h1 class="text-center mb-4">User List</h1>
-    <table class="table table-striped table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>City</th>
-                <th>Phone</th>
-                <th>Gender</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% users.forEach(user => { %>
-                <tr>
-                    <td><%= user.name %></td>
-                    <td><%= user.email %></td>
-                    <td><%= user.city %></td>
-                    <td><%= user.phone %></td>
-                    <td><%= user.gender %></td>
-                    <td>
-                        <button class="btn btn-info" onclick="viewDetails('<%= user.id %>')">View</button>
-                    </td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
-</div>
+        .user-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-<%- include('../layout/footer') %> 
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-md);
+        }
 
-<script>
-    function viewDetails(userId) {
-        window.location.href = `/admin/userOrders/${userId}`;
-    }
-</script>
+        .user-info h3 {
+            margin: 0;
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-primary);
+        }
+
+        .user-info span {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .detail-item i {
+            color: var(--color-secondary);
+            width: 16px;
+            text-align: center;
+        }
+
+        .btn-view-orders {
+            margin-top: auto;
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(20, 184, 166, 0.1);
+            color: var(--color-secondary);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-weight-medium);
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view-orders:hover {
+            background: var(--gradient-secondary);
+            color: white;
+            border-color: transparent;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: var(--radius-2xl);
+            border: 1px dashed rgba(20, 184, 166, 0.3);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state h3 {
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+    </style>
+
+    <div class="container dashboard-container">
+        <div class="page-header">
+            <h1>Overview Dashboard</h1>
+            <p>Manage users and track their activities</p>
+        </div>
+
+        <% if (users && users.length> 0) { %>
+            <div class="users-grid">
+                <% users.forEach(user=> { %>
+                    <div class="user-card" style="animation: scaleIn 0.3s ease-out;">
+                        <div class="user-header">
+                            <div class="user-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="user-info">
+                                <h3>
+                                    <%= user.name %>
+                                </h3>
+                                <span><i class="fa-solid fa-id-badge"></i> ID: <%= user.id %></span>
+                            </div>
+                        </div>
+
+                        <div class="user-details">
+                            <div class="detail-item">
+                                <i class="fa-solid fa-envelope"></i>
+                                <%= user.email %>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <%= user.city || 'Not specified' %>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fa-solid fa-phone"></i>
+                                <%= user.phone || 'No phone' %>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fa-solid fa-venus-mars"></i>
+                                <%= user.gender || 'Not specified' %>
+                            </div>
+                        </div>
+
+                        <button class="btn-view-orders" onclick="viewDetails('<%= user.id %>')">
+                            <i class="fa-solid fa-receipt"></i>
+                            View Orders
+                        </button>
+                        <button class="btn-delete-user" onclick="confirmDelete('<%= user.id %>')">
+                            <i class="fa-solid fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                    <% }); %>
+            </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <i class="fa-solid fa-users"></i>
+                    <h3>No users registered yet</h3>
+                </div>
+                <% } %>
+    </div>
+
+    <script>
+        function viewDetails(userId) {
+            window.location.href = `/admin/userOrders/${userId}`;
+        }
+
+        function confirmDelete(userId) {
+            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                window.location.href = `/admin/deleteUser/${userId}`;
+            }
+        }
+    </script>
+
+    <style>
+        .btn-delete-user {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--color-error);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-weight-medium);
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .btn-delete-user:hover {
+            background: var(--color-error);
+            color: white;
+            border-color: transparent;
+        }
+    </style>
+
+    <%- include('../layout/footer') %>
