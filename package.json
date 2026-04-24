@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start:test": "NODE_ENV=test node index.js",
     "test": "npm run test:unit && npm run test:integration",
-    "test:unit": "jest tests/units --runInBand",
-    "test:integration": "jest tests/integration --runInBand"
+    "test:unit": "NODE_ENV=test jest tests/units --runInBand --coverage",
+    "test:integration": "NODE_ENV=test jest tests/integration --runInBand",
+    "test:e2e": "NODE_ENV=test playwright test tests/e2e/home.spec.js",
+    "test:perf:plan": "node scripts/perf-plan.js"
   },
   "keywords": [],
   "author": "",
