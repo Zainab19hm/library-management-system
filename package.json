@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "jest" !
+    "start:test": "cross-env NODE_ENV=test node index.js",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "cross-env NODE_ENV=test jest tests/units --runInBand --coverage",
+    "test:integration": " cross-env NODE_ENV=test jest tests/integration --runInBand",
+    "test:e2e": "cross-env NODE_ENV=test playwright test tests/e2e/home.spec.js",
+    "test:perf:plan": "node scripts/perf-plan.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +31,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
+    "cross-env": "^10.1.0",
     "eslint": "^10.2.1",
     "jest": "^30.3.0",
     "nodemon": "^3.0.3",
